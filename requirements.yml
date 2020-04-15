@@ -1,0 +1,36 @@
+- name: digitalocean
+  src: jasonheecs.digitalocean
+  version: 1.2.0
+
+- name: python-raw
+  src: jasonheecs.ubuntu-python-raw
+  version: 1.0.0
+
+- name: swapfile
+  src: oefenweb.swapfile
+  version: v2.0.18
+
+- name: fail2ban
+  src: jasonheecs.ubuntu-fail2ban
+  version: 1.1.0
+
+- name: ufw
+  src: weareinteractive.ufw
+  version: 1.10.0
+
+- name: ntp
+  src: geerlingguy.ntp
+  version: 1.6.4
+
+- name: users
+  src: weareinteractive.users
+  version: 1.13.1
+
+- name: unattended-upgrades
+  src: jnv.unattended-upgrades
+  version: v1.7.1
+
+- name: sshd
+  src: willshersystems.sshd
+  version: v0.8.1
+

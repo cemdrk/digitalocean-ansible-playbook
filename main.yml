@@ -1,0 +1,56 @@
+---
+- hosts: localhost
+  connection: local
+  become: no
+  roles:
+    - { role: digitalocean, tags: [digitalocean] }
+
+- hosts: localhost
+  connection: local
+  become: no
+  gather_facts: false
+  tasks:
+    - name: Waiting for droplet DNS to propagate
+      pause:
+        seconds: 30
+      when: droplet.changed
+
+- hosts: do_droplet_in_memory
+  name: Test Connection and Determine Remote User
+  gather_facts: false
+  roles:
+    - { role: connection, tags: [connection, always] }
+  vars:
+    - ansible_python_interpreter: /usr/bin/python3
+    - local_python_interpreter: "{{ ansible_playbook_python }}"
+
+- hosts: do_droplet_in_memory
+  gather_facts: no
+  become: no
+  roles:
+    - { role: python-raw }
+
+- hosts: do_droplet_in_memory
+  become: no
+  gather_facts: true
+  tasks:
+    - name: Get local machine's IP address
+      set_fact:
+        local_machine_ip: "{{ ansible_env['SSH_CLIENT'].split() | first }}"
+      changed_when: false
+  vars:
+    - ansible_python_interpreter: /usr/bin/python3
+
+- hosts: do_droplet_in_memory
+  become: yes
+  gather_facts: true
+  roles:
+    - { role: swapfile, tags: [swapfile] }
+    - { role: fail2ban, tags: [fail2ban] }
+    - { role: ufw, tags: [ufw] }
+    - { role: ntp, tags: [ntp] }
+    - { role: users, tags: [users] }
+    - { role: unattended-upgrades, tags: [unattended-upgrades] }
+    - { role: sshd, tags: [sshd] }
+  vars:
+    - ansible_python_interpreter: /usr/bin/python3
