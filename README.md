@@ -14,6 +14,10 @@ This playbook does the following:
 - Installs the UnattendedUpgrades package for automatic security updates
 
 ## Usage
+
+- Modify the values in `group_vars/all/main.yml.example` and `group_vars/all/secret.yml.example`.
+- Rename the `group_vars/all/secret.yml.example` file to `group_vars/all/secret.yml` and `group_vars/all/main.yml.example` file to `group_vars/all/main.yml`.
+- Run the following:
 ```
 ansible-galaxy install -r requirements.yml
 ansible-playbook -i hosts main.yml
